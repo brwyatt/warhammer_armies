@@ -1,3 +1,5 @@
+import json
+
 import boto3
 from boto3.dynamodb.conditions import Key
 
@@ -26,14 +28,14 @@ def get_descendants(root='None'):
 
 
 def get_ancestors(uuid):
-    tree = get_object(uuid)
+    obj = get_object(uuid)
 
-    if tree['parentUUID'] != 'None':
-        tree['parent'] = get_ancestors(tree['parentUUID'])
+    if obj['parentUUID'] != 'None':
+        res = get_ancestors(obj['parentUUID'])
+        res.append(obj)
+        return res
 
-    del tree['parentUUID']
-
-    return tree
+    return [obj]
 
 
 def get_children(parentUUID='None'):

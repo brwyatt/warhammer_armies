@@ -1,12 +1,11 @@
 import json
 
-from warhammerarmies import (get_ancestors, get_descendants, get_children,
-                             get_object)
+import warhammerarmies as wa
 
 
 def api_get_ancestors(pathParameters, queryStringParameters):
     uuid = pathParameters.get('uuid', 'None')
-    res = get_ancestors(uuid)
+    res = wa.get_ancestors(uuid)
     if len(res) == 0:
         return {
             'statusCode': 404,
@@ -22,7 +21,7 @@ def api_get_ancestors(pathParameters, queryStringParameters):
 
 def api_get_descendants(pathParameters, queryStringParameters):
     uuid = pathParameters.get('uuid', 'None')
-    res = get_descendants(uuid)
+    res = wa.get_descendants(uuid)
     if len(res) == 0:
         return {
             'statusCode': 404,
@@ -38,7 +37,7 @@ def api_get_descendants(pathParameters, queryStringParameters):
 
 def api_get_children(pathParameters, queryStringParameters):
     uuid = pathParameters.get('uuid', 'None')
-    res = get_children(uuid)
+    res = wa.get_children(uuid)
     if len(res) == 0:
         return {
             'statusCode': 404,
@@ -54,7 +53,7 @@ def api_get_children(pathParameters, queryStringParameters):
 
 def api_get_object(pathParameters, queryStringParameters):
     uuid = pathParameters.get('uuid', 'None')
-    res = get_object(uuid)
+    res = wa.get_object(uuid)
     if len(res) == 0:
         return {
             'statusCode': 404,
