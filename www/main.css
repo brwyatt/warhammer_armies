@@ -4,3 +4,12 @@ div#title {
 	font-size: large;
 	font-weight: bolder;
 }
+
+.profilepic {
+	height: 250px;
+	width: auto;
+}
+
+th {
+	vertical-align: top;
+}

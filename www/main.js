@@ -15,8 +15,15 @@ function load_main(uuid) {
 		url: api+"/"+uuid,
 		success: function(result) {
 			update_title(result["Type"]+": "+result["Name"]);
-			content=JSON.stringify(result, null, 4);
-			$("#main").html("<pre>"+content+"</pre>");
+			content=[]
+			content.push("<table>")
+			content.push("<tr><th>Name</th><td>"+result["Name"]+"</td></tr>")
+			content.push("<tr><th>Type</th><td>"+result["Type"]+"</td></tr>")
+			if("img" in result){
+				content.push("<tr><th>Picture</th><td><img src=\"/img/"+result["img"]+"\" class=\"profilepic\"/></td></tr>")
+			}
+			content.push("</table>")
+			$("#main").html("<table>"+content.join('')+"</table>");
 		},
 		error: function(result) {
 			update_title();
