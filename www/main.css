@@ -44,8 +44,9 @@ div#footer {
 	border-top: 3px solid;
 }
 
-th {
+table.objectdata th {
 	vertical-align: top;
+	text-align: right;
 }
 
 .tooltip {

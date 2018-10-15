@@ -25,23 +25,40 @@ function render_with_tooltip(data, element_name) {
 	}
 	return ret;
 }
+function load_unit_data(uuid) {
+	$("#unitdata").html("Loading...");
+	$("#unitdata").html("Unimplemented!");
+}
+function load_wargear(uuid_list) {
+	$("#wargear").html("Loading...");
+	$("#wargear").html("Unimplemented!");
+}
 function load_main(uuid) {
 	$("#main").html("Loading...");
 	$.ajax({
 		url: api+"/"+uuid,
 		success: function(result) {
-			update_title(result["Type"]+": "+result["Name"]);
-			content=[]
-			if("img" in result){
-				content.push("<div id=\"pictureframe\"><img src=\"/img/"+result["img"]+"\" /></div>")
+			update_title(result["Type"]+": "+result["Name"],
+				render_with_tooltip(result, "Type")+": "+render_with_tooltip(result, "Name"));
+			content=[];
+			if("img" in result) {
+				content.push("<div id=\"pictureframe\"><img src=\"/img/"+result["img"]+"\" /></div>");
 			}
-			content.push("<div id=\"infopane\">")
-			content.push("<table>")
-			content.push("<tr><th>Name</th><td>"+render_with_tooltip(result, "Name")+"</td></tr>")
-			content.push("<tr><th>Type</th><td>"+render_with_tooltip(result, "Type")+"</td></tr>")
-			content.push("</table>")
-			content.push("</div>")
+			content.push("<div id=\"infopane\">");
+			content.push("<table class=\"objectdata\">");
+			content.push("<tr><th>Name</th><td>"+render_with_tooltip(result, "Name")+"</td></tr>");
+			content.push("<tr><th>Type</th><td>"+render_with_tooltip(result, "Type")+"</td></tr>");
+			if("ObjectType" in result && result["ObjectType"] == "unit") {
+				content.push("<tr><th>Unit Data</th><td id=\"unitdata\"></td></tr>");
+				content.push("<tr><th>Wargear</th><td id=\"wargear\"></td></tr>");
+			}
+			content.push("</table>");
+			content.push("</div>");
 			$("#main").html(content.join(''));
+			if("ObjectType" in result && result["ObjectType"] == "unit") {
+				load_unit_data(result["UnitData"]);
+				load_wargear(result["Wargear"]);
+			}
 		},
 		error: function(result) {
 			update_title();
