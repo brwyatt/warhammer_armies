@@ -1,13 +1,46 @@
+div#header {
+	padding-bottom: 10px;
+	border-bottom: 3px solid;
+}
+
 div#title {
-	margin: auto;
+	margin: 10px;
 	text-align: center;
-	font-size: large;
+	font-size: 20pt;
 	font-weight: bolder;
 }
 
-.profilepic {
-	height: 250px;
-	width: auto;
+div#content {
+}
+
+div#main {
+	overflow: hidden;
+	margin: 10px;
+}
+
+div#children {
+	margin: 10px;
+	margin-top: 0px;
+}
+
+div#pictureframe {
+	width: 33%;
+	height: auto;
+	float: left;
+	margin-right: 10px;
+}
+
+div#pictureframe img {
+	width: 100%;
+}
+
+div#infopane {
+	width: 100%;
+}
+
+div#footer {
+	padding-top: 10px;
+	border-top: 3px solid;
 }
 
 th {
