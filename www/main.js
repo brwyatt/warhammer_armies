@@ -1,5 +1,5 @@
 api="https://wh.brwyatt.net/api"
-function update_title(title){
+function update_title(title, header_alt){
 	base_title = "Warhammer Army Browser";
 	if(title == null){
 		title = base_title;
@@ -7,7 +7,13 @@ function update_title(title){
 		title = base_title+" - "+title;
 	}
 	document.title = title;
-	$("#title").html(title);
+
+	if(header_alt == null) {
+		header = title;
+	} else {
+		header = base_title+" - "+header_alt;
+	}
+	$("#title").html(header);
 }
 function render_with_tooltip(data, element_name) {
 	ret = '';
