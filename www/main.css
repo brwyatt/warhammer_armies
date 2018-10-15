@@ -15,12 +15,12 @@ div#content {
 
 div#main {
 	overflow: hidden;
-	margin: 10px;
+	padding: 10px;
 }
 
 div#children {
-	margin: 10px;
-	margin-top: 0px;
+	padding: 10px;
+	padding-top: 0px;
 }
 
 div#pictureframe {
@@ -36,6 +36,7 @@ div#pictureframe img {
 
 div#infopane {
 	width: 100%;
+	padding-bottom: 25px; /* Tooltips aren't showing over bottom of this div... */
 }
 
 div#footer {
@@ -56,24 +57,24 @@ th {
 .tooltip .tooltiptext {
     visibility: hidden;
     display: block;
-    width: 120px;
+    min-width: 120px;
     background-color: black;
     color: #fff;
     text-align: center;
     border-radius: 6px;
-    padding: 5px 0;
+    padding: 5px 10px;
     position: absolute;
     z-index: 1;
     top: 150%;
     left: 50%;
-    margin-left: -60px;
+    margin-left: -70px;
 }
 
 .tooltip .tooltiptext::after {
     content: "";
     position: absolute;
     bottom: 100%;
-    left: 50%;
+    left: 70px;
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
