@@ -19,8 +19,8 @@ function render_with_tooltip(data, element_name) {
 	ret = '';
 	if(element_name in data) {
 		ret = data[element_name];
-		if(element_name+"Translation" in data) {
-			ret = "<span class=\"tooltip\">"+ret+"<span class=\"tooltiptext\">"+data[element_name+"Translation"]+"</span></span>"
+		if(element_name+"_Translation" in data) {
+			ret = "<span class=\"tooltip\">"+ret+"<span class=\"tooltiptext\">"+data[element_name+"_Translation"]+"</span></span>"
 		}
 	}
 	return ret;
