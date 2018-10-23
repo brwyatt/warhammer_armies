@@ -15,12 +15,15 @@ function update_title(title, header_alt){
 	}
 	$("#title").html(header);
 }
-function render_with_tooltip(data, element_name) {
+function render_tooltip(text, tooltip_text){
+	return "<span class=\"tooltip\">"+text+"<span class=\"tooltiptext\">"+tooltip_text+"</span></span>";
+}
+function render_key_with_tooltip(data, element_name) {
 	ret = '';
 	if(element_name in data) {
 		ret = data[element_name];
 		if(element_name+"_Translation" in data) {
-			ret = "<span class=\"tooltip\">"+ret+"<span class=\"tooltiptext\">"+data[element_name+"_Translation"]+"</span></span>"
+			ret =  render_tooltip(ret, data[element_name+"_Translation"]);
 		}
 	}
 	return ret;
@@ -39,15 +42,15 @@ function load_main(uuid) {
 		url: api+"/"+uuid,
 		success: function(result) {
 			update_title(result["Type"]+": "+result["Name"],
-				render_with_tooltip(result, "Type")+": "+render_with_tooltip(result, "Name"));
+				render_key_with_tooltip(result, "Type")+": "+render_key_with_tooltip(result, "Name"));
 			content=[];
 			if("img" in result) {
 				content.push("<div id=\"pictureframe\"><img src=\"/img/"+result["img"]+"\" /></div>");
 			}
 			content.push("<div id=\"infopane\">");
 			content.push("<table class=\"objectdata\">");
-			content.push("<tr><th>Name</th><td>"+render_with_tooltip(result, "Name")+"</td></tr>");
-			content.push("<tr><th>Type</th><td>"+render_with_tooltip(result, "Type")+"</td></tr>");
+			content.push("<tr><th>Name</th><td>"+render_key_with_tooltip(result, "Name")+"</td></tr>");
+			content.push("<tr><th>Type</th><td>"+render_key_with_tooltip(result, "Type")+"</td></tr>");
 			content.push("</table>");
 			if("ObjectType" in result && result["ObjectType"] == "unit") {
 				if("UnitData" in result) {
@@ -82,7 +85,7 @@ function load_nav(uuid) {
 		success: function(result) {
 			content=[home];
 			for(i in result){
-				content.push(render_with_tooltip(result[i], "Type")+": <a href=\"#"+result[i]["UUID"]+"\">"+render_with_tooltip(result[i], "Name")+"</a>");
+				content.push(render_key_with_tooltip(result[i], "Type")+": <a href=\"#"+result[i]["UUID"]+"\">"+render_key_with_tooltip(result[i], "Name")+"</a>");
 			}
 			$("#nav").html(content.join(' &gt; '));
 		},
@@ -98,7 +101,7 @@ function load_children(uuid) {
 		success: function(result) {
 			content="";
 			for(i in result){
-				content+="<li>"+render_with_tooltip(result[i], "Type")+": <a href=\"#"+result[i]["UUID"]+"\">"+render_with_tooltip(result[i], "Name")+"</a></li>";
+				content+="<li>"+render_key_with_tooltip(result[i], "Type")+": <a href=\"#"+result[i]["UUID"]+"\">"+render_key_with_tooltip(result[i], "Name")+"</a></li>";
 			}
 			$("#children").html("<ul>"+content+"</ul>");
 		},
