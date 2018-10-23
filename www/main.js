@@ -48,16 +48,24 @@ function load_main(uuid) {
 			content.push("<table class=\"objectdata\">");
 			content.push("<tr><th>Name</th><td>"+render_with_tooltip(result, "Name")+"</td></tr>");
 			content.push("<tr><th>Type</th><td>"+render_with_tooltip(result, "Type")+"</td></tr>");
-			if("ObjectType" in result && result["ObjectType"] == "unit") {
-				content.push("<tr><th>Unit Data</th><td id=\"unitdata\"></td></tr>");
-				content.push("<tr><th>Wargear</th><td id=\"wargear\"></td></tr>");
-			}
 			content.push("</table>");
+			if("ObjectType" in result && result["ObjectType"] == "unit") {
+				if("UnitData" in result) {
+					content.push("<h4>Unit Data</h4><div id=\"unitdata\"></div>");
+				}
+				if("Wargear" in result) {
+					content.push("<h4>Wargear</h4><div id=\"wargear\"></div>");
+				}
+			}
 			content.push("</div>");
 			$("#main").html(content.join(''));
 			if("ObjectType" in result && result["ObjectType"] == "unit") {
-				load_unit_data(result["UnitData"]);
-				load_wargear(result["Wargear"]);
+				if("UnitData" in result) {
+					load_unit_data(result["UnitData"]);
+				}
+				if("Wargear" in result) {
+					load_wargear(result["Wargear"]);
+				}
 			}
 		},
 		error: function(result) {
