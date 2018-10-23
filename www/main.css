@@ -46,9 +46,43 @@ div#footer {
 	text-align: center;
 }
 
+.sectionheader {
+	font-size: 14pt;
+	font-weight: bold;
+}
+
 table.objectdata th {
 	vertical-align: top;
 	text-align: right;
+}
+
+table.datatable {
+	border-spacing: 0;
+	text-align: left;
+}
+
+table.datatable th {
+	background: steelblue;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+table.datatable td {
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	vertical-align: top;
+}
+
+table.datatable tr.oddrow {
+	background: white;
+}
+
+table.datatable tr.evenrow {
+	background: lightsteelblue;
 }
 
 .tooltip {
