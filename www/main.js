@@ -83,15 +83,6 @@ function load_wargear(uuid_list) {
 	content.push("<th>"+render_tooltip("D", "Damage")+"</th>");
 	content.push("<th>Abilities</th>");
 	content.push("</tr>");
-	for(i in uuid_list) {
-		// Technically, while this would be an even index, it is an odd number row
-		if(i % 2 == 0){
-			rowclass="oddrow";
-		} else {
-			rowclass="evenrow";
-		}
-		content.push("<tr id=\""+uuid_list[i]+"\" class=\""+rowclass+" hidden\"><td colspan=\"6\">Loading...</td></tr>");
-	}
 	content.push("</table>");
 	content.push("</div>");
 	content.push("</div>");
@@ -108,15 +99,6 @@ function load_wargear(uuid_list) {
 	content.push("<th>"+render_tooltip("D", "Damage")+"</th>");
 	content.push("<th>Abilities</th>");
 	content.push("</tr>");
-	for(i in uuid_list) {
-		// Technically, while this would be an even index, it is an odd number row
-		if(i % 2 == 0){
-			rowclass="oddrow";
-		} else {
-			rowclass="evenrow";
-		}
-		content.push("<tr id=\""+uuid_list[i]+"\" class=\""+rowclass+" hidden\"><td colspan=\"6\">Loading...</td></tr>");
-	}
 	content.push("</table>");
 	content.push("</div>");
 	content.push("</div>");
@@ -128,15 +110,6 @@ function load_wargear(uuid_list) {
 	content.push("<th>System</th>");
 	content.push("<th>Effect</th>");
 	content.push("</tr>");
-	for(i in uuid_list) {
-		// Technically, while this would be an even index, it is an odd number row
-		if(i % 2 == 0){
-			rowclass="oddrow";
-		} else {
-			rowclass="evenrow";
-		}
-		content.push("<tr id=\""+uuid_list[i]+"\" class=\""+rowclass+" hidden\"><td colspan=\"2\">Loading...</td></tr>");
-	}
 	content.push("</table>");
 	content.push("</div>");
 	content.push("</div>");
@@ -173,16 +146,13 @@ function load_wargear(uuid_list) {
 					$("div#"+table_id).attr("class", classes);
 				}
 
-				// Populate row
-				$("div#"+table_id+" tr#"+result["UUID"]).html(content.join(""));
-
-				// Unhide row
-				classes = $("div#"+table_id+" tr#"+result["UUID"]).attr("class").split(" ");
-				hidden_index = classes.indexOf("hidden");
-				if(hidden_index > -1){
-					classes.splice(hidden_index, 1).join(" ");
-					$("div#"+table_id+" tr#"+result["UUID"]).attr("class", classes);
+				table_length = $("div#"+table_id+" table tr").length;
+				if(table_length % 2 == 0){
+					classes = "evenrow";
+				} else {
+					classes = "oddrow";
 				}
+				$("div#"+table_id+" table tr:last").after("<tr class=\""+classes+"\">"+content.join("")+"</tr>");
 			},
 			error: function(result) {
 			}
