@@ -1,6 +1,13 @@
+from decimal import Decimal
 import json
 
 import warhammerarmies as wa
+
+
+def fix_dynamo_types(obj):
+    if isinstance(obj, Decimal):
+        return float(obj)
+    raise TypeError
 
 
 def api_get_ancestors(pathParameters, queryStringParameters):
@@ -15,7 +22,7 @@ def api_get_ancestors(pathParameters, queryStringParameters):
         }
     return {
         'statusCode': 200,
-        'body': json.dumps(res)
+        'body': json.dumps(res, default=fix_dynamo_types)
     }
 
 
@@ -31,7 +38,7 @@ def api_get_descendants(pathParameters, queryStringParameters):
         }
     return {
         'statusCode': 200,
-        'body': json.dumps(res)
+        'body': json.dumps(res, default=fix_dynamo_types)
     }
 
 
@@ -47,7 +54,7 @@ def api_get_children(pathParameters, queryStringParameters):
         }
     return {
         'statusCode': 200,
-        'body': json.dumps(res)
+        'body': json.dumps(res, default=fix_dynamo_types)
     }
 
 
@@ -63,7 +70,7 @@ def api_get_object(pathParameters, queryStringParameters):
         }
     return {
         'statusCode': 200,
-        'body': json.dumps(res)
+        'body': json.dumps(res, default=fix_dynamo_types)
     }
 
 
