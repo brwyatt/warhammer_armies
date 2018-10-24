@@ -70,6 +70,9 @@ function load_unit_data(uuid) {
 function load_wargear(uuid_list) {
 	$("#wargear").html("Loading...");
 	content=[];
+	content.push("<div id=\"wargear_ranged\" class=\"hidden\">");
+	content.push("<div class=\"sectionheader\">Ranged</div>");
+	content.push("<div class=\"indent\">");
 	content.push("<table class=\"datatable\">");
 	content.push("<tr>");
 	content.push("<th>Weapon</th>");
@@ -87,16 +90,72 @@ function load_wargear(uuid_list) {
 		} else {
 			rowclass="evenrow";
 		}
-		content.push("<tr id=\""+uuid_list[i]+"\" class=\""+rowclass+"\"><td colspan=\"6\">Loading...</td></tr>");
+		content.push("<tr id=\""+uuid_list[i]+"\" class=\""+rowclass+" hidden\"><td colspan=\"6\">Loading...</td></tr>");
 	}
 	content.push("</table>");
+	content.push("</div>");
+	content.push("</div>");
+	content.push("<div id=\"wargear_melee\" class=\"hidden\">");
+	content.push("<div class=\"sectionheader\">Melee</div>");
+	content.push("<div class=\"indent\">");
+	content.push("<table class=\"datatable\">");
+	content.push("<tr>");
+	content.push("<th>Weapon</th>");
+	content.push("<th>Range</th>");
+	content.push("<th>Type</th>");
+	content.push("<th>"+render_tooltip("S", "Strength")+"</th>");
+	content.push("<th>"+render_tooltip("AP", "Armor Piercing")+"</th>");
+	content.push("<th>"+render_tooltip("D", "Damage")+"</th>");
+	content.push("<th>Abilities</th>");
+	content.push("</tr>");
+	for(i in uuid_list) {
+		// Technically, while this would be an even index, it is an odd number row
+		if(i % 2 == 0){
+			rowclass="oddrow";
+		} else {
+			rowclass="evenrow";
+		}
+		content.push("<tr id=\""+uuid_list[i]+"\" class=\""+rowclass+" hidden\"><td colspan=\"6\">Loading...</td></tr>");
+	}
+	content.push("</table>");
+	content.push("</div>");
+	content.push("</div>");
+	content.push("<div id=\"wargear_support\" class=\"hidden\">");
+	content.push("<div class=\"sectionheader\">Support Systems</div>");
+	content.push("<div class=\"indent\">");
+	content.push("<table class=\"datatable\">");
+	content.push("<tr>");
+	content.push("<th>System</th>");
+	content.push("<th>Effect</th>");
+	content.push("</tr>");
+	for(i in uuid_list) {
+		// Technically, while this would be an even index, it is an odd number row
+		if(i % 2 == 0){
+			rowclass="oddrow";
+		} else {
+			rowclass="evenrow";
+		}
+		content.push("<tr id=\""+uuid_list[i]+"\" class=\""+rowclass+" hidden\"><td colspan=\"2\">Loading...</td></tr>");
+	}
+	content.push("</table>");
+	content.push("</div>");
+	content.push("</div>");
 	$("#wargear").html(content.join(''));
 	for(i in uuid_list) {
 		$.ajax({
 			url: api+"/"+uuid_list[i],
 			success: function(result) {
 				content=[];
-				elements = ["Name", "Range", "Type", "Strength", "Armor Piercing", "Damage", "Abilities"];
+				if(result["WargearType"] == "Ranged"){
+					table_id = "wargear_ranged"
+					elements = ["Name", "Range", "Type", "Strength", "Armor Piercing", "Damage", "Abilities"];
+				}if(result["WargearType"] == "Melee"){
+					table_id = "wargear_melee"
+					elements = ["Name", "Range", "Type", "Strength", "Armor Piercing", "Damage", "Abilities"];
+				} if(result["WargearType"] == "Support System"){
+					table_id = "wargear_support"
+					elements = ["Name", "Effect"];
+				}
 				for(j in elements){
 					content.push("<td>");
 					if(elements[j] in result){
@@ -106,7 +165,24 @@ function load_wargear(uuid_list) {
 					}
 					content.push("</td>");
 				}
-				$("#"+result['UUID']).html(content.join(''));
+				// Unhide table
+				classes = $("div#"+table_id).attr("class").split(" ");
+				hidden_index = classes.indexOf("hidden");
+				if(hidden_index > -1){
+					classes.splice(hidden_index, 1).join(" ");
+					$("div#"+table_id).attr("class", classes);
+				}
+
+				// Populate row
+				$("div#"+table_id+" tr#"+result["UUID"]).html(content.join(""));
+
+				// Unhide row
+				classes = $("div#"+table_id+" tr#"+result["UUID"]).attr("class").split(" ");
+				hidden_index = classes.indexOf("hidden");
+				if(hidden_index > -1){
+					classes.splice(hidden_index, 1).join(" ");
+					$("div#"+table_id+" tr#"+result["UUID"]).attr("class", classes);
+				}
 			},
 			error: function(result) {
 			}
@@ -131,10 +207,10 @@ function load_main(uuid) {
 			content.push("</table>");
 			if("ObjectType" in result && result["ObjectType"] == "unit") {
 				if("UnitData" in result) {
-					content.push("<div class=\"sectionheader\">Unit Data</div><div id=\"unitdata\"></div>");
+					content.push("<div class=\"sectionheader\">Unit Data</div><div id=\"unitdata\" class=\"indent\"></div>");
 				}
 				if("Wargear" in result) {
-					content.push("<div class=\"sectionheader\">Wargear</div><div id=\"wargear\"></div>");
+					content.push("<div class=\"sectionheader\">Wargear</div><div id=\"wargear\" class=\"indent\"></div>");
 				}
 			}
 			content.push("</div>");
