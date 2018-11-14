@@ -28,8 +28,8 @@ function render_key_with_tooltip(data, element_name) {
 	}
 	return ret;
 }
-function load_unit_data(uuid) {
-	$("#unitdata").html("Loading...");
+function load_model_data(uuid) {
+	$("#modeldata").html("Loading...");
 	content=[];
 	content.push("<table class=\"datatable\">");
 	content.push("<tr>");
@@ -46,7 +46,7 @@ function load_unit_data(uuid) {
 	content.push("</tr>");
 	content.push("<tr id=\""+uuid+"\"><td colspan=\"10\">Loading...</td></tr>");
 	content.push("</table>");
-	$("#unitdata").html(content.join(''));
+	$("#modeldata").html(content.join(''));
 	$.ajax({
 		url: api+"/"+uuid,
 		success: function(result) {
@@ -175,9 +175,9 @@ function load_main(uuid) {
 			content.push("<tr><th>Name</th><td>"+render_key_with_tooltip(result, "Name")+"</td></tr>");
 			content.push("<tr><th>Type</th><td>"+render_key_with_tooltip(result, "Type")+"</td></tr>");
 			content.push("</table>");
-			if("ObjectType" in result && result["ObjectType"] == "unit") {
-				if("UnitData" in result) {
-					content.push("<div class=\"sectionheader\">Unit Data</div><div id=\"unitdata\" class=\"indent\"></div>");
+			if("ObjectType" in result && result["ObjectType"] == "model") {
+				if("ModelData" in result) {
+					content.push("<div class=\"sectionheader\">Model Data</div><div id=\"modeldata\" class=\"indent\"></div>");
 				}
 				if("Wargear" in result) {
 					content.push("<div class=\"sectionheader\">Wargear</div><div id=\"wargear\" class=\"indent\"></div>");
@@ -185,9 +185,9 @@ function load_main(uuid) {
 			}
 			content.push("</div>");
 			$("#main").html(content.join(''));
-			if("ObjectType" in result && result["ObjectType"] == "unit") {
-				if("UnitData" in result) {
-					load_unit_data(result["UnitData"]);
+			if("ObjectType" in result && result["ObjectType"] == "model") {
+				if("ModelData" in result) {
+					load_model_data(result["ModelData"]);
 				}
 				if("Wargear" in result) {
 					load_wargear(result["Wargear"]);
